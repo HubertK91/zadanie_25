@@ -18,10 +18,19 @@
 
     <ul>
         <li th:each="task: ${tasks}">
-            <span th:text="|${task.id} ${task.name} ${task.category.description} ${task.finished}|"></span>
-            <input type="submit" value="Zrobione">
+            <span th:text="|${task.id} ${task.name} ${task.category.description} ${task.finished}|"
+                  th:value="${task.finished}"></span>
+            <a th:href="|/edit?id=${task.id} ">edytuj</a>
+            <form method="post" th:action="@{/send}" th:object="${taskToEdit}">
+                <input type="submit" id="button" th:field="*{finished}" value="Zrobione">
+            </form>
         </li>
     </ul>
 </section>
+<script>
+    function checkDone() {
+        localStorage.setItem("${task.finished}", true);
+    }
+</script>
 </body>
 </html>

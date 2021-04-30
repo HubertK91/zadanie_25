@@ -12,7 +12,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private boolean isFinished;
+    private boolean finished;
 
     public Long getId() {
         return id;
@@ -39,10 +39,10 @@ public class Task {
     }
 
     public boolean isFinished() {
-        return isFinished;
+        return finished;
     }
 
     public void setFinished(boolean finished) {
-        isFinished = finished;
+        this.finished = finished;
     }
 }

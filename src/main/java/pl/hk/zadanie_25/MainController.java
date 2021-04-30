@@ -17,8 +17,9 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, Task task) {
         List<Task> all = taskRepository.findAll();
+        model.addAttribute("taskToEdit", task);
         model.addAttribute("tasks", all);
         return "home";
     }
@@ -36,18 +37,41 @@ public class MainController {
         return "redirect:/";
     }
 
-//    @GetMapping("/archives")
-//    public String printListOfTasks(Model model, Task task) {
-//        if (task.isFinished() == false) {
-//            List<Task> tasks = taskRepository.findByCategory(category);
-//            model.addAttribute("tasks", tasks);
-//            return "products";
-//        } else {
-//            List<Task> allProducts = taskRepository.findAll();
-//            model.addAttribute("products", allProducts);
-//            model.addAttribute("sumProducts", allProducts.stream().mapToDouble(Product::getPrice)
-//                    .sum());
-//            return "products";
-//        }
-//    }
+    @GetMapping("/edit")
+    public String edit(@RequestParam Long id, Model model) {
+        Task task = taskRepository.findById(id).orElse(null);
+        model.addAttribute("task", task);
+        model.addAttribute("categories", Category.values());
+        return "edit";
+    }
+
+    @PostMapping("/edit")
+    public String edit(Task task) {
+        Task task1 = taskRepository.findById(task.getId()).orElse(null);
+        task1.setName(task.getName());
+        task1.setCategory(task.getCategory());
+        task1.setFinished(task.isFinished());
+        taskRepository.save(task1);
+        return "redirect:/";
+    }
+
+    @PostMapping("/send")
+    public String sendTask(Task task) {
+        if (task != null) {
+            task.setFinished(true);
+            taskRepository.save(task);
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/archives")
+    public String printListOfDoneTasks(Model model, Task task) {
+        if (task.isFinished()) {
+            List<Task> tasks = taskRepository.findAll();
+            model.addAttribute("tasks", tasks);
+            return "archives";
+        } else {
+            return "noResults";
+        }
+    }
 }

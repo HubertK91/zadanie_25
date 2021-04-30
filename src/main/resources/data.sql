@@ -1,2 +1,2 @@
-INSERT INTO task(`name`, category, is_Finished)
-VALUES ('Sprzątanie', 'HOUSEHOLD_DUTIES', 0 ), ('Praca przed komputerem', 'JOB', 0 ), ('Kurs programowania', 'COURSE', 0 );
+INSERT INTO task(`name`, category, finished)
+VALUES ('Sprzątanie', 'HOUSEHOLD_DUTIES', false ), ('Praca przed komputerem', 'JOB', false ), ('Kurs programowania', 'COURSE', false );

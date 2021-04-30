@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja</title>
+</head>
+<body>
+<h2 th:text="|Edycja zadania ${task.name}|"></h2>
+
+<form method="post" th:action="@{/edit}"
+      th:object="${task}">
+  <div class="mb-3" style="max-width: 700px">
+    <input type="hidden" th:field="*{id}" class="form-control" id="id">
+  </div>
+  <div class="mb-3" style="max-width: 700px">
+    <label for="name" class="form-label">Nazwa</label>
+    <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nazwa zadania">
+  </div>
+  <div class="mb-3" style="max-width: 700px">
+    <label for="category" class="form-label">Kategoria</label>
+    <select id="category" class="form-select" th:field="*{category}">
+      <option value="" hidden selected>Wybierz kategorię...</option>
+      <option th:each="category: ${categories}" th:value="${category}" th:text="${category}"></option>
+    </select>
+  </div>
+  <div class="mb-3" style="max-width: 700px">
+    <input type="submit" value="Edytuj">
+  </div>
+</form>
+
+</body>
+</html>
