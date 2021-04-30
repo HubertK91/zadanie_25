@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<section layout:fragment="" content="">
+    <div class="row">
+        <div class="col-2">
+            <a th:href="@{/archives}">archiwum zadań</a>
+        </div>
+        <div class="col-2">
+            <a th:href="@{/add}">dodawanie zadania</a>
+        </div>
+    </div>
+
+    <ul>
+        <li th:each="task: ${tasks}">
+            <span th:text="|${task.id} ${task.name} ${task.category.description} ${task.finished}|"></span>
+            <input type="submit" value="Zrobione">
+        </li>
+    </ul>
+</section>
+</body>
+</html>

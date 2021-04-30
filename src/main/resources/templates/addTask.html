@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawanie zadań</title>
+</head>
+<body>
+<section layout:fragment="" content="">
+    <form method="post" th:action="@{/add}"
+          th:object="${taskToAdd}">
+        <div class="mb-3" style="max-width: 700px">
+            <label for="name" class="form-label">Nazwa</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nazwa zadania">
+        </div>
+        <div class="mb-3" style="max-width: 700px">
+            <label for="category" class="form-label">Kategoria</label>
+            <select id="category" class="form-select" th:field="*{category}">
+                <option value="" hidden selected>Wybierz kategorię...</option>
+                <option th:each="category: ${categories}" th:value="${category}" th:text="${category}"></option>
+            </select>
+        </div>
+        <div class="mb-3" style="max-width: 700px">
+            <input type="submit" value="Dodaj zadanie">
+        </div>
+    </form>
+</section>
+</body>
+</html>
