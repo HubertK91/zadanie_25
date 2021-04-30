@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -19,7 +20,6 @@ public class MainController {
     @GetMapping("/")
     public String home(Model model, Task task) {
         List<Task> all = taskRepository.findAll();
-        model.addAttribute("taskToEdit", task);
         model.addAttribute("tasks", all);
         return "home";
     }
@@ -47,31 +47,35 @@ public class MainController {
 
     @PostMapping("/edit")
     public String edit(Task task) {
-        Task task1 = taskRepository.findById(task.getId()).orElse(null);
-        task1.setName(task.getName());
-        task1.setCategory(task.getCategory());
-        task1.setFinished(task.isFinished());
-        taskRepository.save(task1);
-        return "redirect:/";
+        Optional<Task> task1 = taskRepository.findById(task.getId());
+        if (task1.isPresent()){
+            task1.get().setName(task.getName());
+            task1.get().setCategory(task.getCategory());
+            task1.get().setFinished(task.isFinished());
+            taskRepository.save(task1.get());
+            return "redirect:/";
+        }else {
+            throw new RuntimeException();
+        }
     }
 
-    @PostMapping("/send")
-    public String sendTask(Task task) {
-        if (task != null) {
-            task.setFinished(true);
-            taskRepository.save(task);
+    @PostMapping("/done")
+    public String doneTask(@RequestParam Long id) {
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isPresent()){
+            task.get().setFinished(true);
+            taskRepository.save(task.get());
+            return "redirect:/";
+        }else {
+            throw new RuntimeException();
         }
-        return "redirect:/";
+
     }
 
     @GetMapping("/archives")
     public String printListOfDoneTasks(Model model, Task task) {
-        if (task.isFinished()) {
-            List<Task> tasks = taskRepository.findAll();
+            List<Task> tasks = taskRepository.findAllTasksWhereFinishedIsTrue();
             model.addAttribute("tasks", tasks);
             return "archives";
-        } else {
-            return "noResults";
-        }
     }
 }

@@ -18,19 +18,15 @@
 
     <ul>
         <li th:each="task: ${tasks}">
-            <span th:text="|${task.id} ${task.name} ${task.category.description} ${task.finished}|"
-                  th:value="${task.finished}"></span>
-            <a th:href="|/edit?id=${task.id} ">edytuj</a>
-            <form method="post" th:action="@{/send}" th:object="${taskToEdit}">
-                <input type="submit" id="button" th:field="*{finished}" value="Zrobione">
+            <span th:text="|${task.id} nazwa: ${task.name}, kategoria: ${task.category.description}, etap:|"></span>
+            <span th:if="${task.finished == true}">Ukończone</span>
+            <span th:unless="${task.finished == true}">Do zrobienia</span>
+            <a th:href="|/edit?id=${task.id}|">edytuj</a>
+            <form method="post" th:action="|/done?id=${task.id}|">
+                <input type="submit" id="button" value="Zrobione">
             </form>
         </li>
     </ul>
 </section>
-<script>
-    function checkDone() {
-        localStorage.setItem("${task.finished}", true);
-    }
-</script>
 </body>
 </html>

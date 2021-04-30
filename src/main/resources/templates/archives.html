@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
-  <meta charset="UTF-8">
-  <title>Archiwum</title>
+    <meta charset="UTF-8">
+    <title>Archiwum</title>
 </head>
 <body>
 <section layout:fragment="" content="">
-  <ul>
-    <li th:each="task: ${tasks}">
-            <span th:text="|${task.id} ${task.name} ${task.category.description} ${task.finished}|"
-                  th:value="${task.finished}"></span>
-    </li>
-  </ul>
+    <ul>
+        <li th:each="task: ${tasks}">
+            <span th:text="|${task.id} nazwa: ${task.name}, kategoria: ${task.category.description}, etap:|"></span>
+            <span th:if="${task.finished == true}">Ukończone</span>
+            <span th:unless="${task.finished == true}">Do zrobienia</span>
+        </li>
+    </ul>
 </section>
 </body>
 </html>
