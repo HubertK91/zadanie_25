@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     public MainController(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
     @GetMapping("/")
-    public String home(Model model, Task task) {
+    public String home(Model model) {
         List<Task> all = taskRepository.findAll();
         model.addAttribute("tasks", all);
         return "home";
@@ -39,10 +39,14 @@ public class MainController {
 
     @GetMapping("/edit")
     public String edit(@RequestParam Long id, Model model) {
-        Task task = taskRepository.findById(id).orElse(null);
-        model.addAttribute("task", task);
-        model.addAttribute("categories", Category.values());
-        return "edit";
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isPresent()){
+            model.addAttribute("task", task.get());
+            model.addAttribute("categories", Category.values());
+            return "edit";
+        }else {
+            throw new RuntimeException();
+        }
     }
 
     @PostMapping("/edit")
@@ -69,12 +73,11 @@ public class MainController {
         }else {
             throw new RuntimeException();
         }
-
     }
 
     @GetMapping("/archives")
-    public String printListOfDoneTasks(Model model, Task task) {
-            List<Task> tasks = taskRepository.findAllTasksWhereFinishedIsTrue();
+    public String printListOfDoneTasks(Model model) {
+            List<Task> tasks = taskRepository.findAllByFinished(true);
             model.addAttribute("tasks", tasks);
             return "archives";
     }

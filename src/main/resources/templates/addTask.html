@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Dodawanie zadań</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
-<section layout:fragment="" content="">
+<h2 style="margin-left: 50px">Dodawanie zadania</h2>
+<section layout:fragment="content">
     <form method="post" th:action="@{/add}"
           th:object="${taskToAdd}">
         <div class="mb-3" style="max-width: 700px">
@@ -16,8 +19,7 @@
         <div class="mb-3" style="max-width: 700px">
             <label for="category" class="form-label">Kategoria</label>
             <select id="category" class="form-select" th:field="*{category}">
-                <option value="" hidden selected>Wybierz kategorię...</option>
-                <option th:each="category: ${categories}" th:value="${category}" th:text="${category}"></option>
+                <option th:each="category: ${categories}" th:value="${category}" th:text="${category.description}"></option>
             </select>
         </div>
         <div class="mb-3" style="max-width: 700px">
