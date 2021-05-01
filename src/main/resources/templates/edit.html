@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+<section layout:fragment="content">
+<h2 style="margin-left: 50px" th:text="|Edycja zadania ${task.name}|"></h2>
+
+<form method="post" th:action="@{/edit}"
+      th:object="${task}">
+    <div class="mb-3" style="max-width: 700px">
+        <input type="hidden" th:field="*{id}" class="form-control" id="id">
+    </div>
+    <div class="mb-3" style="max-width: 700px">
+        <label for="name" class="form-label">Nazwa</label>
+        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nazwa zadania">
+    </div>
+    <div class="mb-3" style="max-width: 700px">
+        <label for="category" class="form-label">Kategoria</label>
+        <select id="category" class="form-select" th:field="*{category}">
+            <option th:each="category: ${categories}" th:value="${category}" th:text="${category.description}"></option>
+        </select>
+    </div>
+    <div class="mb-3" style="max-width: 700px">
+        <input type="submit" value="Edytuj">
+    </div>
+</form>
+</section>
+</body>
+</html>
